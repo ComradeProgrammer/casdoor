@@ -17,6 +17,9 @@ jobs:
               - 3306:3306
           options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+      - name: Trust My Directory
+        run: |
+          git config --global --add safe.directory /github/workspace
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
@@ -56,11 +59,14 @@ jobs:
   release-and-push:
     name: Release And Push
     runs-on: ubuntu-latest
-    if: github.repository == 'casdoor/casdoor' && github.event_name == 'push'
+    #if: github.repository == 'casdoor/casdoor' && github.event_name == 'push'
     needs: [ frontend, backend ]
     steps:
+      - name: Trust My Directory
+        run: |
+          git config --global --add safe.directory /github/workspace
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.35.1
         with:
           fetch-depth: 0
       - name: Setup Node.js

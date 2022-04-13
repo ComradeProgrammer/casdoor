@@ -2,14 +2,16 @@ name: Crowdin Action
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '*' ]
 
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
-    if: github.repository == 'casdoor/casdoor' && github.event_name == 'push'
+    #if: github.repository == 'casdoor/casdoor' && github.event_name == 'push'
     steps:
-
+    - name: Trust My Directory
+      run: |
+        git config --global --add safe.directory /github/workspace
     - name: Checkout
       uses: actions/checkout@v2
 
